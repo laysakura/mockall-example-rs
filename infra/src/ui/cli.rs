@@ -1,4 +1,6 @@
 use clap::{App, Arg, ArgMatches};
+use domain::{EmailAddress, UserFirstName, UserLastName, UserName};
+use interface_adapter::{AddUserRequestDTO, Controller};
 
 #[derive(Clone, Eq, PartialEq, Ord, PartialOrd, Hash, Debug, Default)]
 pub(crate) struct Cli;
@@ -23,7 +25,24 @@ impl Cli {
         todo!()
     }
     fn process_add_cmd(matches: &ArgMatches) {
-        todo!()
+        let firstname = matches.value_of("firstname").expect("required");
+        let lastname = matches.value_of("lastname").expect("required");
+        let email = matches.value_of("email").expect("required");
+
+        let req = AddUserRequestDTO {
+            email: EmailAddress::new(email),
+            name: UserName::new(UserFirstName::new(firstname), UserLastName::new(lastname)),
+        };
+
+        match Controller::add_user(req) {
+            Ok(_res) => {
+                eprintln!("Successfully added a user.")
+            }
+            Err(e) => {
+                // TODO 丁寧なエラーハンドリング
+                eprintln!("Failed to add a user: {:?}", e)
+            }
+        }
     }
     fn process_update_cmd(matches: &ArgMatches) {
         todo!()

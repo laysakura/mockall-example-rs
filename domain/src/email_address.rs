@@ -7,12 +7,14 @@ pub struct EmailAddress {
 }
 
 impl EmailAddress {
-    pub fn new(user: impl ToString, domain: impl ToString) -> Self {
+    pub fn new(s: impl ToString) -> Self {
         // TODO 本当はここでメアドのRFCに沿ってるかなどバリデーションすべき
 
+        let s = s.to_string();
+        let mut sp = s.split('@');
         Self {
-            user: user.to_string(),
-            domain: domain.to_string(),
+            user: sp.next().unwrap().to_string(),
+            domain: sp.next().unwrap().to_string(),
         }
     }
 }
