@@ -2,29 +2,41 @@ use clap::{App, Arg, ArgMatches};
 use domain::{EmailAddress, UserFirstName, UserLastName, UserName};
 use interface_adapter::{AddUserRequestDTO, Controller};
 
-#[derive(Clone, Eq, PartialEq, Ord, PartialOrd, Hash, Debug, Default)]
-pub(crate) struct Cli;
+use crate::repository_impls::RepositoryImpls;
+
+#[derive(Clone, Hash, Debug)]
+pub(crate) struct Cli {
+    controller: Controller<RepositoryImpls>,
+}
+
+impl Default for Cli {
+    fn default() -> Self {
+        let r = RepositoryImpls::default();
+        let controller = Controller::new(&r);
+        Self { controller }
+    }
+}
 
 impl Cli {
-    pub(crate) fn process_cmd() {
+    pub(crate) fn process_cmd(&self) {
         let matches = Self::create_matches();
 
         if let Some(m) = matches.subcommand_matches("search") {
-            Self::process_search_cmd(m);
+            self.process_search_cmd(m);
         } else if let Some(m) = matches.subcommand_matches("add") {
-            Self::process_add_cmd(m);
+            self.process_add_cmd(m);
         }
         if let Some(m) = matches.subcommand_matches("update") {
-            Self::process_update_cmd(m);
+            self.process_update_cmd(m);
         } else {
             panic!("Invalid command. Run with --help for usage.")
         }
     }
 
-    fn process_search_cmd(matches: &ArgMatches) {
+    fn process_search_cmd(&self, matches: &ArgMatches) {
         todo!()
     }
-    fn process_add_cmd(matches: &ArgMatches) {
+    fn process_add_cmd(&self, matches: &ArgMatches) {
         let firstname = matches.value_of("firstname").expect("required");
         let lastname = matches.value_of("lastname").expect("required");
         let email = matches.value_of("email").expect("required");
@@ -34,7 +46,7 @@ impl Cli {
             name: UserName::new(UserFirstName::new(firstname), UserLastName::new(lastname)),
         };
 
-        match Controller::add_user(req) {
+        match self.controller.add_user(req) {
             Ok(_res) => {
                 eprintln!("Successfully added a user.")
             }
@@ -44,7 +56,7 @@ impl Cli {
             }
         }
     }
-    fn process_update_cmd(matches: &ArgMatches) {
+    fn process_update_cmd(&self, matches: &ArgMatches) {
         todo!()
     }
 
