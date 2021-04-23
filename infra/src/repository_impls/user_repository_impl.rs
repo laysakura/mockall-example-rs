@@ -2,6 +2,8 @@ use std::cell::RefCell;
 
 use domain::{MyError, MyErrorType, MyResult, User, UserRepository};
 
+use crate::persistence::yaml::user_yaml_storage::UserYamlStorage;
+
 #[derive(Clone, Debug)]
 pub(crate) struct UserRepositoryImpl {
     // UserRepository の関数は (`&mut self` ではなく) `&self` を取るため、
@@ -11,7 +13,11 @@ pub(crate) struct UserRepositoryImpl {
 
 impl Default for UserRepositoryImpl {
     fn default() -> Self {
-        todo!()
+        let storage = UserYamlStorage::new();
+        let users = storage.load();
+        Self {
+            users: RefCell::new(users),
+        }
     }
 }
 
@@ -33,11 +39,19 @@ impl UserRepository for UserRepositoryImpl {
             ))
         } else {
             self.users.borrow_mut().push(user);
+            self.save();
             Ok(())
         }
     }
 
     fn update(&self, user: User) -> MyResult<()> {
         todo!()
+    }
+}
+
+impl UserRepositoryImpl {
+    fn save(&self) {
+        let storage = UserYamlStorage::new();
+        storage.save(&self.users.borrow())
     }
 }

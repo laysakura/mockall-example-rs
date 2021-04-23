@@ -7,12 +7,13 @@ pub(crate) struct UserYamlStorage;
 
 impl UserYamlStorage {
     pub(crate) fn new() -> Self {
-        OpenOptions::new()
-            .create(true)
-            .write(true)
-            .open(Self::yaml_path())
-            .expect("Error on creating YAML file"); // touch
-        Self
+        let slf = Self;
+
+        if !Self::yaml_path().exists() {
+            let yml = slf.serialize_users(&vec![]);
+            Self::write_to_yaml(&yml)
+        }
+        slf
     }
 
     pub(crate) fn load(&self) -> Vec<User> {
@@ -22,14 +23,7 @@ impl UserYamlStorage {
 
     pub(crate) fn save(&self, users: &Vec<User>) {
         let yml = self.serialize_users(&users);
-
-        let mut f = OpenOptions::new()
-            .create(true)
-            .write(true)
-            .open(Self::yaml_path())
-            .expect("Error on opening YAML file");
-
-        write!(f, "{}", yml).expect("Error on writing to YAML file");
+        Self::write_to_yaml(&yml)
     }
 
     fn serialize_users(&self, users: &Vec<User>) -> String {
@@ -42,5 +36,16 @@ impl UserYamlStorage {
 
     fn yaml_path() -> PathBuf {
         PathBuf::from("users.yml") // FIXME: path from configuration
+    }
+
+    fn write_to_yaml(yml: &str) {
+        let mut f = OpenOptions::new()
+            .create(true)
+            .write(true)
+            .open(Self::yaml_path())
+            .expect("Error on opening YAML file");
+
+        write!(f, "{}", yml).expect("Error on writing to YAML file");
+        f.flush().expect("Error on flushing");
     }
 }

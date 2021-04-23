@@ -24,8 +24,7 @@ impl Cli {
             self.process_search_cmd(m);
         } else if let Some(m) = matches.subcommand_matches("add") {
             self.process_add_cmd(m);
-        }
-        if let Some(m) = matches.subcommand_matches("update") {
+        } else if let Some(m) = matches.subcommand_matches("update") {
             self.process_update_cmd(m);
         } else {
             panic!("Invalid command. Run with --help for usage.")
