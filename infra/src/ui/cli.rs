@@ -49,6 +49,22 @@ impl Cli {
     }
 
     fn create_matches() -> ArgMatches {
+        let firstname_arg = Arg::new("firstname")
+            .long("firstname")
+            .short('f')
+            .about("First name")
+            .takes_value(true);
+        let lastname_arg = Arg::new("lastname")
+            .long("lastname")
+            .short('l')
+            .about("Last name")
+            .takes_value(true);
+        let email_arg = Arg::new("email")
+            .long("email")
+            .short('e')
+            .about("Email address")
+            .takes_value(true);
+
         App::new("User list")
             .version("1.0")
             .author("Sho Nakatani <lay.sakura@gmail.com>")
@@ -56,72 +72,23 @@ impl Cli {
             .subcommand(
                 App::new("search")
                     .about("Searches users by name and/or email address")
-                    .arg(
-                        Arg::new("firstname")
-                            .long("firstname")
-                            .short('f')
-                            .about("First name"),
-                    )
-                    .arg(
-                        Arg::new("lastname")
-                            .long("lastname")
-                            .short('l')
-                            .about("Last name"),
-                    )
-                    .arg(
-                        Arg::new("email")
-                            .long("email")
-                            .short('e')
-                            .about("Email address"),
-                    ),
+                    .arg(firstname_arg.clone())
+                    .arg(lastname_arg.clone())
+                    .arg(email_arg.clone()),
             )
             .subcommand(
                 App::new("add")
                     .about("Adds a user")
-                    .arg(
-                        Arg::new("firstname")
-                            .long("firstname")
-                            .short('f')
-                            .about("First name")
-                            .required(true),
-                    )
-                    .arg(
-                        Arg::new("lastname")
-                            .long("lastname")
-                            .short('l')
-                            .about("Last name")
-                            .required(true),
-                    )
-                    .arg(
-                        Arg::new("email")
-                            .long("email")
-                            .short('e')
-                            .about("Email address")
-                            .required(true),
-                    ),
+                    .arg(firstname_arg.clone().required(true))
+                    .arg(lastname_arg.clone().required(true))
+                    .arg(email_arg.clone().required(true)),
             )
             .subcommand(
                 App::new("update")
                     .about("Updates a user's name")
-                    .arg(
-                        Arg::new("email")
-                            .long("email")
-                            .short('e')
-                            .about("Email address to search a user")
-                            .required(true),
-                    )
-                    .arg(
-                        Arg::new("firstname")
-                            .long("firstname")
-                            .short('f')
-                            .about("First name to update"),
-                    )
-                    .arg(
-                        Arg::new("lastname")
-                            .long("lastname")
-                            .short('l')
-                            .about("Last name to update"),
-                    ),
+                    .arg(email_arg.clone().required(true))
+                    .arg(firstname_arg.clone())
+                    .arg(lastname_arg.clone()),
             )
             .get_matches()
     }
