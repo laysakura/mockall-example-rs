@@ -2,9 +2,8 @@ use crate::{id_generator::IdGenerator, repository_impls::RepositoryImpls};
 use clap::{App, Arg, ArgMatches};
 use domain::{EmailAddress, User, UserFirstName, UserId, UserLastName, UserName};
 use interface_adapter::{AddUserRequestDTO, Controller};
-use rand::prelude::*;
 
-#[derive(Clone, Hash, Debug)]
+#[derive(Clone, Debug)]
 pub(crate) struct Cli {
     controller: Controller<RepositoryImpls>,
 }

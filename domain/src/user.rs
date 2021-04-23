@@ -17,4 +17,16 @@ impl User {
     pub fn new(id: UserId, name: UserName, email: EmailAddress) -> Self {
         Self { id, name, email }
     }
+
+    pub fn id(&self) -> &UserId {
+        &self.id
+    }
+
+    pub fn name(&self) -> &UserName {
+        &self.name
+    }
+
+    pub fn email(&self) -> &EmailAddress {
+        &self.email
+    }
 }
