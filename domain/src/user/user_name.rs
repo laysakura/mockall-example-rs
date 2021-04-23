@@ -1,16 +1,21 @@
+mod user_first_name;
+mod user_last_name;
+
 use std::fmt::Display;
+
+use self::{user_first_name::UserFirstName, user_last_name::UserLastName};
 
 #[derive(Clone, Eq, PartialEq, Ord, PartialOrd, Hash, Debug, Default)]
 pub struct UserName {
-    first_name: String,
-    last_name: String,
+    first_name: UserFirstName,
+    last_name: UserLastName,
 }
 
 impl UserName {
-    pub fn new(first_name: impl ToString, last_name: impl ToString) -> Self {
+    pub fn new(first_name: UserFirstName, last_name: UserLastName) -> Self {
         Self {
-            first_name: first_name.to_string(),
-            last_name: last_name.to_string(),
+            first_name,
+            last_name,
         }
     }
 }
