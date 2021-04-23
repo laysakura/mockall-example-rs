@@ -1,4 +1,4 @@
-use domain::{EmailAddress, User, UserFirstName, UserLastName, UserName};
+use domain::{EmailAddress, User, UserFirstName, UserLastName};
 
 #[derive(Clone, Eq, PartialEq, Ord, PartialOrd, Hash, Debug)]
 pub struct SearchUsersRequestDTO {
@@ -12,10 +12,9 @@ pub struct SearchUsersResponseDTO {
     users: Vec<User>,
 }
 
-#[derive(Clone, Eq, PartialEq, Ord, PartialOrd, Hash, Debug)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
 pub struct AddUserRequestDTO {
-    pub email: EmailAddress,
-    pub name: UserName,
+    pub user: User,
 }
 
 #[derive(Clone, Eq, PartialEq, Ord, PartialOrd, Hash, Debug)]

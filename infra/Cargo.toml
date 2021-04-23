@@ -11,3 +11,4 @@ domain = {path = "../domain"}
 interface-adapter = {path = "../interface-adapter"}
 
 clap = "3.0.0-beta.2"
+rand = "0.8"

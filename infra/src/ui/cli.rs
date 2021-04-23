@@ -1,8 +1,8 @@
+use crate::{id_generator::IdGenerator, repository_impls::RepositoryImpls};
 use clap::{App, Arg, ArgMatches};
-use domain::{EmailAddress, UserFirstName, UserLastName, UserName};
+use domain::{EmailAddress, User, UserFirstName, UserId, UserLastName, UserName};
 use interface_adapter::{AddUserRequestDTO, Controller};
-
-use crate::repository_impls::RepositoryImpls;
+use rand::prelude::*;
 
 #[derive(Clone, Hash, Debug)]
 pub(crate) struct Cli {
@@ -40,11 +40,14 @@ impl Cli {
         let firstname = matches.value_of("firstname").expect("required");
         let lastname = matches.value_of("lastname").expect("required");
         let email = matches.value_of("email").expect("required");
+        let id: u64 = IdGenerator::gen();
 
-        let req = AddUserRequestDTO {
-            email: EmailAddress::new(email),
-            name: UserName::new(UserFirstName::new(firstname), UserLastName::new(lastname)),
-        };
+        let user = User::new(
+            UserId::new(id),
+            UserName::new(UserFirstName::new(firstname), UserLastName::new(lastname)),
+            EmailAddress::new(email),
+        );
+        let req = AddUserRequestDTO { user };
 
         match self.controller.add_user(req) {
             Ok(_res) => {

@@ -1,6 +1,6 @@
 pub mod dto;
 
-use domain::MyResult;
+use domain::{MyResult, UserRepository};
 
 use crate::Repositories;
 
@@ -26,7 +26,8 @@ impl<R: Repositories> Controller<R> {
     }
 
     pub fn add_user(&self, dto: AddUserRequestDTO) -> MyResult<AddUserResponseDTO> {
-        todo!()
+        let user = dto.user;
+        self.user_repo.create(user).map(|()| AddUserResponseDTO {})
     }
 
     pub fn update_user(&self, dto: UpdateUserRequestDTO) -> MyResult<UpdateUserResponseDTO> {

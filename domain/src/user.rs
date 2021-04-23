@@ -12,3 +12,9 @@ pub struct User {
     name: UserName,
     email: EmailAddress,
 }
+
+impl User {
+    pub fn new(id: UserId, name: UserName, email: EmailAddress) -> Self {
+        Self { id, name, email }
+    }
+}

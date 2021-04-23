@@ -1,4 +1,5 @@
 ///! Infrastructure layer, having main function.
+pub(crate) mod id_generator;
 pub(crate) mod persistence;
 pub(crate) mod repository_impls;
 mod ui;
