@@ -1,6 +1,8 @@
+pub(crate) mod user_repository_impl;
+
 use interface_adapter::Repositories;
 
-use crate::persistence::yaml::repository_impl::user_repository_impl::UserRepositoryImpl;
+use self::user_repository_impl::UserRepositoryImpl;
 
 /// リポジトリのインスタンスを詰め込む。
 /// リポジトリtraitの具体型を決定する、静的なDI (Dependency Injection) をする場でもある。

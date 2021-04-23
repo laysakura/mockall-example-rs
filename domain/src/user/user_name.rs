@@ -1,11 +1,11 @@
 pub mod user_first_name;
 pub mod user_last_name;
 
+use self::{user_first_name::UserFirstName, user_last_name::UserLastName};
+use serde::{Deserialize, Serialize};
 use std::fmt::Display;
 
-use self::{user_first_name::UserFirstName, user_last_name::UserLastName};
-
-#[derive(Clone, Eq, PartialEq, Ord, PartialOrd, Hash, Debug, Default)]
+#[derive(Clone, Eq, PartialEq, Ord, PartialOrd, Hash, Debug, Default, Serialize, Deserialize)]
 pub struct UserName {
     first_name: UserFirstName,
     last_name: UserLastName,

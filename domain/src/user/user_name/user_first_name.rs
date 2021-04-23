@@ -1,6 +1,7 @@
+use serde::{Deserialize, Serialize};
 use std::fmt::Display;
 
-#[derive(Clone, Eq, PartialEq, Ord, PartialOrd, Hash, Debug, Default)]
+#[derive(Clone, Eq, PartialEq, Ord, PartialOrd, Hash, Debug, Default, Serialize, Deserialize)]
 pub struct UserFirstName(String);
 
 impl UserFirstName {
