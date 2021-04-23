@@ -1,5 +1,5 @@
-mod user_first_name;
-mod user_last_name;
+pub mod user_first_name;
+pub mod user_last_name;
 
 use std::fmt::Display;
 

@@ -3,6 +3,6 @@
 members = [
   "domain",
   "app",
+  "interface-adapter",
   "infra",
 ]
-

@@ -1,11 +1,36 @@
-use clap::{App, Arg};
+use clap::{App, Arg, ArgMatches};
 
 #[derive(Clone, Eq, PartialEq, Ord, PartialOrd, Hash, Debug, Default)]
 pub(crate) struct Cli;
 
 impl Cli {
     pub(crate) fn process_cmd() {
-        let matches = App::new("User list")
+        let matches = Self::create_matches();
+
+        if let Some(m) = matches.subcommand_matches("search") {
+            Self::process_search_cmd(m);
+        } else if let Some(m) = matches.subcommand_matches("add") {
+            Self::process_add_cmd(m);
+        }
+        if let Some(m) = matches.subcommand_matches("update") {
+            Self::process_update_cmd(m);
+        } else {
+            panic!("Invalid command. Run with --help for usage.")
+        }
+    }
+
+    fn process_search_cmd(matches: &ArgMatches) {
+        todo!()
+    }
+    fn process_add_cmd(matches: &ArgMatches) {
+        todo!()
+    }
+    fn process_update_cmd(matches: &ArgMatches) {
+        todo!()
+    }
+
+    fn create_matches() -> ArgMatches {
+        App::new("User list")
             .version("1.0")
             .author("Sho Nakatani <lay.sakura@gmail.com>")
             .about("Example program to show how to use mockall crate.")
@@ -79,9 +104,6 @@ impl Cli {
                             .about("Last name to update"),
                     ),
             )
-            .get_matches();
-
-        todo!()
-        // ここで CreateRequestDTO とかに詰めていき、presenに処理を移譲。エラーハンドリングも全部やる
+            .get_matches()
     }
 }
