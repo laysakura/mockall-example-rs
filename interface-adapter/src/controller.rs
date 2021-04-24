@@ -1,5 +1,6 @@
 pub mod dto;
 
+use app::UseCase;
 use domain::{MyResult, Repositories, UserRepository};
 
 use self::dto::{
@@ -7,16 +8,14 @@ use self::dto::{
     UpdateUserRequestDTO, UpdateUserResponseDTO,
 };
 
-#[derive(Clone, Eq, PartialEq, Ord, PartialOrd, Hash, Debug)]
 pub struct Controller<R: Repositories> {
-    user_repo: R::UserRepo,
+    use_case: UseCase<R>,
 }
 
 impl<R: Repositories> Controller<R> {
     pub fn new(repositories: &R) -> Self {
-        Self {
-            user_repo: repositories.user_repository(),
-        }
+        let use_case = UseCase::new(repositories);
+        Self { use_case }
     }
 
     pub fn search_users(&self, dto: SearchUsersRequestDTO) -> SearchUsersResponseDTO {
@@ -24,9 +23,8 @@ impl<R: Repositories> Controller<R> {
     }
 
     pub fn add_user(&self, dto: AddUserRequestDTO) -> MyResult<AddUserResponseDTO> {
-        // FIXME usercase使う
         let user = dto.user;
-        self.user_repo.create(user).map(|()| AddUserResponseDTO {})
+        self.use_case.add_user(user).map(|()| AddUserResponseDTO {})
     }
 
     pub fn update_user(&self, dto: UpdateUserRequestDTO) -> MyResult<UpdateUserResponseDTO> {

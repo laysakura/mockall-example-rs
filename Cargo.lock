@@ -3,6 +3,9 @@
 [[package]]
 name = "app"
 version = "0.1.0"
+dependencies = [
+ "domain",
+]
 
 [[package]]
 name = "atty"
@@ -139,6 +142,7 @@ dependencies = [
 name = "interface-adapter"
 version = "0.1.0"
 dependencies = [
+ "app",
  "domain",
 ]
 

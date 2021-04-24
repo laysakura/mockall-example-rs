@@ -3,7 +3,6 @@ use clap::{App, Arg, ArgMatches};
 use domain::{EmailAddress, User, UserFirstName, UserId, UserLastName, UserName};
 use interface_adapter::{AddUserRequestDTO, Controller, SearchUsersRequestDTO};
 
-#[derive(Clone, Debug)]
 pub(crate) struct Cli {
     controller: Controller<RepositoryImpls>,
 }
