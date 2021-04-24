@@ -1,6 +1,6 @@
 pub(crate) mod user_repository_impl;
 
-use interface_adapter::Repositories;
+use domain::Repositories;
 
 use self::user_repository_impl::UserRepositoryImpl;
 

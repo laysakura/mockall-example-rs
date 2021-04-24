@@ -1,8 +1,6 @@
 pub mod dto;
 
-use domain::{MyResult, UserRepository};
-
-use crate::Repositories;
+use domain::{MyResult, Repositories, UserRepository};
 
 use self::dto::{
     AddUserRequestDTO, AddUserResponseDTO, SearchUsersRequestDTO, SearchUsersResponseDTO,
