@@ -21,11 +21,12 @@ impl<R: Repositories> Controller<R> {
         }
     }
 
-    pub fn search_users(&self, dto: SearchUsersRequestDTO) -> MyResult<SearchUsersResponseDTO> {
+    pub fn search_users(&self, dto: SearchUsersRequestDTO) -> SearchUsersResponseDTO {
         todo!()
     }
 
     pub fn add_user(&self, dto: AddUserRequestDTO) -> MyResult<AddUserResponseDTO> {
+        // FIXME usercase使う
         let user = dto.user;
         self.user_repo.create(user).map(|()| AddUserResponseDTO {})
     }

@@ -1,7 +1,7 @@
 use crate::{id_generator::IdGenerator, repository_impls::RepositoryImpls};
 use clap::{App, Arg, ArgMatches};
 use domain::{EmailAddress, User, UserFirstName, UserId, UserLastName, UserName};
-use interface_adapter::{AddUserRequestDTO, Controller};
+use interface_adapter::{AddUserRequestDTO, Controller, SearchUsersRequestDTO};
 
 #[derive(Clone, Debug)]
 pub(crate) struct Cli {
@@ -32,8 +32,20 @@ impl Cli {
     }
 
     fn process_search_cmd(&self, matches: &ArgMatches) {
-        todo!()
+        let email = matches.value_of("email");
+        let firstname = matches.value_of("firstname");
+        let lastname = matches.value_of("lastname");
+
+        let req = SearchUsersRequestDTO {
+            email: email.map(EmailAddress::new),
+            first_name: firstname.map(UserFirstName::new),
+            last_name: lastname.map(UserLastName::new),
+        };
+
+        let res = self.controller.search_users(req);
+        eprintln!("Found users:\n{:#?}", res.users)
     }
+
     fn process_add_cmd(&self, matches: &ArgMatches) {
         let firstname = matches.value_of("firstname").expect("required");
         let lastname = matches.value_of("lastname").expect("required");

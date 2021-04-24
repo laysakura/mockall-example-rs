@@ -9,7 +9,7 @@ pub struct SearchUsersRequestDTO {
 
 #[derive(Clone, Eq, PartialEq, Hash, Debug)]
 pub struct SearchUsersResponseDTO {
-    users: Vec<User>,
+    pub users: Vec<User>,
 }
 
 #[derive(Clone, Eq, PartialEq, Hash, Debug)]
