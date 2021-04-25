@@ -14,7 +14,7 @@ pub(crate) struct RepositoryImpls {
 impl Repositories for RepositoryImpls {
     type UserRepo = UserRepositoryImpl;
 
-    fn user_repository(&self) -> Self::UserRepo {
-        self.user_repo.clone()
+    fn user_repository(&self) -> &Self::UserRepo {
+        &self.user_repo
     }
 }

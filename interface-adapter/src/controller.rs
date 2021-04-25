@@ -8,12 +8,12 @@ use self::dto::{
     UpdateUserRequestDTO, UpdateUserResponseDTO,
 };
 
-pub struct Controller<R: Repositories> {
-    use_case: UseCase<R>,
+pub struct Controller<'r, R: Repositories> {
+    use_case: UseCase<'r, R>,
 }
 
-impl<R: Repositories> Controller<R> {
-    pub fn new(repositories: &R) -> Self {
+impl<'r, R: Repositories> Controller<'r, R> {
+    pub fn new(repositories: &'r R) -> Self {
         let use_case = UseCase::new(repositories);
         Self { use_case }
     }

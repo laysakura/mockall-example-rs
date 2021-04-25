@@ -4,12 +4,12 @@ use domain::{
 };
 
 #[derive(Clone, Eq, PartialEq, Ord, PartialOrd, Hash, Debug)]
-pub struct UseCase<R: Repositories> {
-    user_repo: R::UserRepo,
+pub struct UseCase<'r, R: Repositories> {
+    user_repo: &'r R::UserRepo,
 }
 
-impl<R: Repositories> UseCase<R> {
-    pub fn new(repositories: &R) -> Self {
+impl<'r, R: Repositories> UseCase<'r, R> {
+    pub fn new(repositories: &'r R) -> Self {
         Self {
             user_repo: repositories.user_repository(),
         }

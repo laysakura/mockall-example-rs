@@ -4,9 +4,11 @@ pub(crate) mod persistence;
 pub(crate) mod repository_impls;
 mod ui;
 
+use repository_impls::RepositoryImpls;
 use ui::cli::Cli;
 
 fn main() {
-    let cli = Cli::default();
+    let repo = RepositoryImpls::default();
+    let cli = Cli::new(&repo);
     cli.process_cmd();
 }

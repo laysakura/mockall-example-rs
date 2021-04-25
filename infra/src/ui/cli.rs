@@ -5,19 +5,16 @@ use interface_adapter::{
     AddUserRequestDTO, Controller, SearchUsersRequestDTO, UpdateUserRequestDTO,
 };
 
-pub(crate) struct Cli {
-    controller: Controller<RepositoryImpls>,
+pub(crate) struct Cli<'r> {
+    controller: Controller<'r, RepositoryImpls>,
 }
 
-impl Default for Cli {
-    fn default() -> Self {
-        let r = RepositoryImpls::default();
-        let controller = Controller::new(&r);
+impl<'r> Cli<'r> {
+    pub fn new(repositories: &'r RepositoryImpls) -> Self {
+        let controller = Controller::new(repositories);
         Self { controller }
     }
-}
 
-impl Cli {
     pub(crate) fn process_cmd(&self) {
         let matches = Self::create_matches();
 
