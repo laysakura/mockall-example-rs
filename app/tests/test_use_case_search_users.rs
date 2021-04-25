@@ -1,7 +1,7 @@
 mod test_repositories;
 
 use app::UseCase;
-use domain::{MockUserRepository, UserFirstName};
+use domain::{EmailAddress, MockUserRepository, UserFirstName, UserLastName};
 use test_repositories::TestRepositories;
 
 #[test]
@@ -14,7 +14,15 @@ fn test_with_blank_repository() {
 
     assert_eq!(use_case.search_users(None, None, None), vec![]);
     assert_eq!(
-        use_case.search_users(Some(&UserFirstName::new("aa")), None, None),
+        use_case.search_users(Some(&UserFirstName::new("a")), None, None),
+        vec![]
+    );
+    assert_eq!(
+        use_case.search_users(None, Some(&UserLastName::new("a")), None),
+        vec![]
+    );
+    assert_eq!(
+        use_case.search_users(None, None, Some(&EmailAddress::new("a@b"))),
         vec![]
     );
 }
