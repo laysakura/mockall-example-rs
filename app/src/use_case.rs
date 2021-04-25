@@ -1,5 +1,6 @@
 use domain::{
-    EmailAddress, MyResult, Repositories, User, UserFirstName, UserLastName, UserRepository,
+    EmailAddress, MyError, MyErrorType, MyResult, Repositories, User, UserFirstName, UserLastName,
+    UserName, UserRepository,
 };
 
 #[derive(Clone, Eq, PartialEq, Ord, PartialOrd, Hash, Debug)]
@@ -50,5 +51,32 @@ impl<R: Repositories> UseCase<R> {
 
     pub fn add_user(&self, user: User) -> MyResult<()> {
         self.user_repo.create(user)
+    }
+
+    pub fn update_user_by_email(
+        &self,
+        email: &EmailAddress,
+        first_name: Option<UserFirstName>,
+        last_name: Option<UserLastName>,
+    ) -> MyResult<()> {
+        let users = self.user_repo.list();
+
+        let user = users
+            .into_iter()
+            .find(|user| user.email() == email)
+            .ok_or_else(|| {
+                MyError::new(
+                    MyErrorType::NotFound,
+                    format!("User with email address `{}` does not exist", email),
+                )
+            })?;
+
+        let new_user_name = UserName::new(
+            first_name.unwrap_or_else(|| user.name().first_name().clone()),
+            last_name.unwrap_or_else(|| user.name().last_name().clone()),
+        );
+        let new_user = User::new(user.id().clone(), new_user_name, user.email().clone());
+
+        self.user_repo.update(new_user)
     }
 }

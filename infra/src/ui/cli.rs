@@ -1,7 +1,9 @@
 use crate::{id_generator::IdGenerator, repository_impls::RepositoryImpls};
 use clap::{App, Arg, ArgMatches};
 use domain::{EmailAddress, User, UserFirstName, UserId, UserLastName, UserName};
-use interface_adapter::{AddUserRequestDTO, Controller, SearchUsersRequestDTO};
+use interface_adapter::{
+    AddUserRequestDTO, Controller, SearchUsersRequestDTO, UpdateUserRequestDTO,
+};
 
 pub(crate) struct Cli {
     controller: Controller<RepositoryImpls>,
@@ -69,7 +71,25 @@ impl Cli {
         }
     }
     fn process_update_cmd(&self, matches: &ArgMatches) {
-        todo!()
+        let email = matches.value_of("email").expect("required");
+        let firstname = matches.value_of("firstname");
+        let lastname = matches.value_of("lastname");
+
+        let req = UpdateUserRequestDTO {
+            email: EmailAddress::new(email),
+            first_name: firstname.map(UserFirstName::new),
+            last_name: lastname.map(UserLastName::new),
+        };
+
+        match self.controller.update_user(req) {
+            Ok(_res) => {
+                eprintln!("Successfully updated a user.")
+            }
+            Err(e) => {
+                // TODO 丁寧なエラーハンドリング
+                eprintln!("Failed to update a user: {:?}", e)
+            }
+        }
     }
 
     fn create_matches() -> ArgMatches {

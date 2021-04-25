@@ -33,6 +33,8 @@ impl<R: Repositories> Controller<R> {
     }
 
     pub fn update_user(&self, dto: UpdateUserRequestDTO) -> MyResult<UpdateUserResponseDTO> {
-        todo!()
+        self.use_case
+            .update_user_by_email(&dto.email, dto.first_name, dto.last_name)
+            .map(|()| UpdateUserResponseDTO {})
     }
 }

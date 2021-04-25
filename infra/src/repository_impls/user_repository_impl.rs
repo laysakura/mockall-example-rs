@@ -45,7 +45,22 @@ impl UserRepository for UserRepositoryImpl {
     }
 
     fn update(&self, user: User) -> MyResult<()> {
-        todo!()
+        let idx = self
+            .users
+            .borrow()
+            .iter()
+            .enumerate()
+            .find_map(|(idx, u)| if u.id() == user.id() { Some(idx) } else { None })
+            .ok_or_else(|| {
+                MyError::new(
+                    MyErrorType::NotFound,
+                    format!("Passed user ID `{:?}` does not exist", user.id()),
+                )
+            })?;
+
+        let _old = std::mem::replace(&mut self.users.borrow_mut()[idx], user);
+        self.save();
+        Ok(())
     }
 }
 
