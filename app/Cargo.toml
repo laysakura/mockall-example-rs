@@ -8,3 +8,6 @@ version = "0.1.0"
 
 [dependencies]
 domain = {path = "../domain"}
+
+[dev-dependencies]
+domain = {path = "../domain", features = ["mock"]}

@@ -13,3 +13,6 @@ pub use user::{
     user_repository::UserRepository,
     User,
 };
+
+#[cfg(feature = "mock")]
+pub use user::user_repository::MockUserRepository;
