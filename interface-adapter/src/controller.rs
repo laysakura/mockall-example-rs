@@ -1,7 +1,7 @@
 pub mod dto;
 
 use app::UseCase;
-use domain::{MyResult, Repositories, UserRepository};
+use domain::{MyResult, Repositories};
 
 use self::dto::{
     AddUserRequestDTO, AddUserResponseDTO, SearchUsersRequestDTO, SearchUsersResponseDTO,
@@ -19,7 +19,12 @@ impl<R: Repositories> Controller<R> {
     }
 
     pub fn search_users(&self, dto: SearchUsersRequestDTO) -> SearchUsersResponseDTO {
-        todo!()
+        let users = self.use_case.search_users(
+            dto.first_name.as_ref(),
+            dto.last_name.as_ref(),
+            dto.email.as_ref(),
+        );
+        SearchUsersResponseDTO { users }
     }
 
     pub fn add_user(&self, dto: AddUserRequestDTO) -> MyResult<AddUserResponseDTO> {

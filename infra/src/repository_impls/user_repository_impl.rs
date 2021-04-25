@@ -22,8 +22,8 @@ impl Default for UserRepositoryImpl {
 }
 
 impl UserRepository for UserRepositoryImpl {
-    fn find(&self, id: &domain::UserId) -> MyResult<User> {
-        todo!()
+    fn list(&self) -> Vec<User> {
+        self.users.borrow().clone()
     }
 
     fn create(&self, user: User) -> MyResult<()> {

@@ -1,12 +1,7 @@
 use crate::{MyResult, User};
 
-use super::user_id::UserId;
-
 pub trait UserRepository {
-    /// # Failures
-    ///
-    /// - `MyErrorType::NotFound` : when user with given ID does not exist.
-    fn find(&self, id: &UserId) -> MyResult<User>;
+    fn list(&self) -> Vec<User>;
 
     /// # Failures
     ///

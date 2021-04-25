@@ -18,6 +18,14 @@ impl UserName {
             last_name,
         }
     }
+
+    pub fn first_name(&self) -> &UserFirstName {
+        &self.first_name
+    }
+
+    pub fn last_name(&self) -> &UserLastName {
+        &self.last_name
+    }
 }
 
 impl Display for UserName {
