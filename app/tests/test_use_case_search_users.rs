@@ -6,7 +6,9 @@ use test_repositories::TestRepositories;
 
 #[test]
 fn test_with_blank_repository() {
-    let user_repo = MockUserRepository::new();
+    let mut user_repo = MockUserRepository::new();
+    user_repo.expect_list().returning(|| vec![]);
+
     let repositories = TestRepositories::new(user_repo);
     let use_case = UseCase::new(&repositories);
 
