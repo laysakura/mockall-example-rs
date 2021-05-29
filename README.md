@@ -1,7 +1,7 @@
 # mockall-example-rs
 
 [mockall](https://docs.rs/mockall/0.9.1/mockall/) を紹介するためのリポジトリ。
-[ブログ記事](TBD) にコードレベルの解説が書いてあります。
+[ブログ記事](https://laysakura.github.io/2021/04/25/rust-mockall/) にコードレベルの解説が書いてあります。
 
 ## 動かし方
 
